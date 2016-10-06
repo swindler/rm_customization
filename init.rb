@@ -5,8 +5,10 @@ require 'redmine'
 Redmine::Plugin.register :rm_customization do
   name 'Redmine SS Customization'
   author 'Artyom Borkowsky'
-  description 'Customizing workflow for SS requirements'
-  version '0.0.1'
+  description 'Customizing workflow for SS requirements. Overrides Redmine Versions so that each has
+                permissions on each project and tracker where it can be assigned to'
+  version '0.0.2'
 end
 
-require 'rm_customization/hooks/issue_update_hook'
+require_dependency 'rm_customization/hooks/issue_update_hook'
+Issue.send(:include, RmCustomization::Patches::IssuePatch)
