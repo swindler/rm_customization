@@ -12,3 +12,6 @@ end
 
 require_dependency 'rm_customization/hooks/issue_update_hook'
 Issue.send(:include, RmCustomization::Patches::IssuePatch)
+Project.send(:include, RmCustomization::Patches::ProjectPatch)
+IssuesController.send(:include, RmCustomization::Patches::IssuesControllerPatch)
+VersionsController.send(:include, RmCustomization::Patches::VersionsControllerPatch)
