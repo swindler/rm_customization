@@ -13,13 +13,15 @@
   <% @version.custom_field_values.each do |value| %>
       <p><%= custom_field_tag_with_label :version, value %></p>
   <% end %>
-  <fieldset class="box" id="version_projects"><legend><%= l(:label_project_plural) %></legend>
-    <% project_ids = @version.projects.to_a %>
+  <%- @version = VersionLimited.find(@version.id) unless @version.id.nil? -%>
+  <fieldset class="box" id="version_limited_projects"><legend><%= l(:label_project_plural) %></legend>
+    <% project_ids = @version.projects.map(&:id) %>
+    <% project_ids << @version.project.id %>
     <%= render_project_nested_lists(Project.all) do |p|
-      content_tag('label', check_box_tag('version[projects][]', p.id, project_ids.include?(p.id), :id => nil) + ' ' + p,
+      content_tag('label', check_box_tag('version_limited[projects][]', p.id, project_ids.include?(p.id), :id => nil) + ' ' + p,
                   class: 'projects_rm_customization')
     end %>
-    <%= hidden_field_tag('version[projects][]', '', :id => nil) %>
-    <p><%= check_all_links 'version_projects' %></p>
+    <%= hidden_field_tag('version_limited[projects][]', '', :id => nil) %>
+    <p><%= check_all_links 'version_limited_projects' %></p>
   </fieldset>
 </div>

@@ -18,7 +18,8 @@ module RmCustomization
         return @assignable_versions if @assignable_versions
         @assignable_versions = assignable_versions_without_rm_customization
         @assignable_versions += VersionLimited.limited(project)
-        @assignable_versions = @assignable_versions.uniq.sort
+        @assignable_versions = @assignable_versions.collect { |x| x.id }
+        @assignable_versions = VersionLimited.find(@assignable_versions).uniq.sort
 
       end
     end
