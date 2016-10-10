@@ -1,0 +1,10 @@
+<p id="versions_form">
+<fieldset class="box" id="versions_included_in">
+  <legend>Versions included in</legend>
+  <%= select :issue ,:versions_included_in,
+             options_for_select(@issue.assignable_versions.collect { |v| [v.name, v.id] },
+                                @issue.versions_included_in.collect{|x| x.id}),
+                                {},
+             {:multiple => true, :size => 4}%>
+</fieldset>
+</p>

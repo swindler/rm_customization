@@ -1,0 +1,8 @@
+<hr>
+<div id="current_projects_list" style="display: flex;">
+  <span id="label_concerned_projects"><%= l(:versions_included_in) %></span>
+  <% @issue.versions_included_in.each do |v| %>
+    <span class="list_projects_names"><%= link_to(v.name,version_path(v))%></span>
+  <% end %>
+</div>
+

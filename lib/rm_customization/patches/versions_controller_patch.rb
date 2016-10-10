@@ -11,6 +11,7 @@ module RmCustomization
           alias_method_chain :update, :rm_customization
           alias_method_chain :edit, :rm_customization
           alias_method_chain :destroy, :rm_customization
+          alias_method_chain :show, :rm_customization
         end
       end
     end
@@ -31,6 +32,19 @@ module RmCustomization
           }
         end
 
+      end
+
+      def show_with_rm_customization
+        respond_to do |format|
+          format.html {
+            @issues = @version.fixed_issues.visible.
+                includes(:status, :tracker, :priority).
+                reorder("#{Tracker.table_name}.position, #{Issue.table_name}.id").
+                to_a + VersionLimited.find(@version.id).issues.to_a
+            @issues = @issues.uniq.sort
+          }
+          format.api
+        end
       end
 
       def create_with_rm_customization
